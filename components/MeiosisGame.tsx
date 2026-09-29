@@ -232,8 +232,8 @@ export function MeiosisGame() {
       <div className="grid grid-cols-4 gap-2 md:grid-cols-8">
         {PHASES.map(p=>(
           <button key={p.id} onClick={()=>choose(p.id)}
-            className={`min-h-24 rounded-xl border bg-white p-2 text-center shadow-sm transition hover:-translate-y-0.5 hover:shadow-md ${flash===p.id?"border-amber-400 ring-2 ring-amber-300":"border-zinc-200"}`}>
-            <div className="h-16"><PhaseArt phase={p.id}/></div>
+            className={`${status === "idle" ? "min-h-16" : "min-h-24"} rounded-xl border bg-white p-2 text-center shadow-sm transition hover:-translate-y-0.5 hover:shadow-md ${flash===p.id?"border-amber-400 ring-2 ring-amber-300":"border-zinc-200"}`}>
+            {status !== "idle" && <div className="h-16"><PhaseArt phase={p.id}/></div>}
             <div className="text-[11px] font-semibold text-zinc-700 sm:text-xs">{p.label}</div>
           </button>
         ))}
