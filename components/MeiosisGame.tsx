@@ -111,27 +111,60 @@ function PhaseArt({ phase }: { phase: Phase }) {
   );
   if (phase === "m2p") return (
     <svg viewBox="0 0 140 110" className="h-full w-full">
-      <Cell cx={42} cy={55} rx={33} ry={38}><Chromosome x={42} y={55} color={red}/></Cell>
-      <Cell cx={98} cy={55} rx={33} ry={38}><Chromosome x={98} y={55} color={blue}/></Cell>
+      <Cell cx={42} cy={55} rx={33} ry={38}>
+        <Chromosome x={36} y={55} color={red}/>
+        <Chromosome x={48} y={55} color={red}/>
+      </Cell>
+      <Cell cx={98} cy={55} rx={33} ry={38}>
+        <Chromosome x={92} y={55} color={blue}/>
+        <Chromosome x={104} y={55} color={blue}/>
+      </Cell>
     </svg>
   );
   if (phase === "m2m") return (
     <svg viewBox="0 0 140 110" className="h-full w-full">
-      <Cell cx={42} cy={55} rx={33} ry={38}><Chromosome x={42} y={55} color={red}/></Cell>
-      <Cell cx={98} cy={55} rx={33} ry={38}><Chromosome x={98} y={55} color={blue}/></Cell>
+      <Cell cx={42} cy={55} rx={33} ry={38}>
+        <Chromosome x={36} y={55} color={red}/>
+        <Chromosome x={48} y={55} color={red}/>
+      </Cell>
+      <Cell cx={98} cy={55} rx={33} ry={38}>
+        <Chromosome x={92} y={55} color={blue}/>
+        <Chromosome x={104} y={55} color={blue}/>
+      </Cell>
       <line x1="42" y1="22" x2="42" y2="88" stroke="#cbd5e1" strokeDasharray="4 4"/>
       <line x1="98" y1="22" x2="98" y2="88" stroke="#cbd5e1" strokeDasharray="4 4"/>
     </svg>
   );
   if (phase === "m2a") return (
     <svg viewBox="0 0 140 110" className="h-full w-full">
-      <Cell cx={42} cy={55} rx={33} ry={38}><Chromosome x={31} y={55} color={red} split/><Chromosome x={53} y={55} color={red} split/></Cell>
-      <Cell cx={98} cy={55} rx={33} ry={38}><Chromosome x={87} y={55} color={blue} split/><Chromosome x={109} y={55} color={blue} split/></Cell>
+      <Cell cx={42} cy={55} rx={33} ry={38}>
+        <Chromosome x={31} y={47} color={red} split/>
+        <Chromosome x={31} y={63} color={red} split/>
+        <Chromosome x={53} y={47} color={red} split/>
+        <Chromosome x={53} y={63} color={red} split/>
+      </Cell>
+      <Cell cx={98} cy={55} rx={33} ry={38}>
+        <Chromosome x={87} y={47} color={blue} split/>
+        <Chromosome x={87} y={63} color={blue} split/>
+        <Chromosome x={109} y={47} color={blue} split/>
+        <Chromosome x={109} y={63} color={blue} split/>
+      </Cell>
     </svg>
   );
   return (
     <svg viewBox="0 0 140 110" className="h-full w-full">
-      {[28,56,84,112].map((x,i)=><g key={x}><circle cx={x} cy="55" r="24" fill="#fff7ed" stroke="#f1c7a5" strokeWidth="3"/><line x1={x} y1="45" x2={x} y2="65" stroke={i<2?red:blue} strokeWidth="7" strokeLinecap="round"/></g>)}
+      {[
+        { x: 35, y: 32, color: red },
+        { x: 95, y: 32, color: red },
+        { x: 35, y: 78, color: blue },
+        { x: 95, y: 78, color: blue },
+      ].map((cell, i) => (
+        <g key={i}>
+          <circle cx={cell.x} cy={cell.y} r="20" fill="#fff7ed" stroke="#f1c7a5" strokeWidth="3"/>
+          <line x1={cell.x - 4} y1={cell.y - 7} x2={cell.x - 4} y2={cell.y + 7} stroke={cell.color} strokeWidth="6" strokeLinecap="round"/>
+          <line x1={cell.x + 4} y1={cell.y - 7} x2={cell.x + 4} y2={cell.y + 7} stroke={cell.color} strokeWidth="6" strokeLinecap="round"/>
+        </g>
+      ))}
     </svg>
   );
 }
