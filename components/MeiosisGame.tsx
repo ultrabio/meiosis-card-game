@@ -199,8 +199,34 @@ export function MeiosisGame() {
 
       <section className="mx-auto flex min-h-72 max-w-2xl items-center justify-center rounded-2xl border border-zinc-200 bg-white/90 p-6 shadow-sm">
         {status==="idle" && (
-          <div className="text-center">
-            <p className="mb-5 text-sm leading-6 text-zinc-600">그림 카드 9장과 특징 카드 18장, 총 27장이 무작위로 나옵니다.<br/>그림 카드도 문제로 등장하며, 맞힌 그림은 해당 시기 칸에 계속 남습니다.<br/>빠르게 맞힐수록 높은 점수를 얻습니다.</p>
+          <div className="flex w-full flex-col items-center gap-4 text-center">
+            <p className="text-sm leading-6 text-zinc-600">그림 카드 9장과 특징 카드 18장, 총 27장이 무작위로 나옵니다.<br/>그림 카드도 문제로 등장하며, 맞힌 그림은 해당 시기 칸에 계속 남습니다.<br/>빠르게 맞힐수록 높은 점수를 얻습니다.</p>
+
+            <button
+              onClick={()=>setShowAnswers(v=>!v)}
+              className="rounded-full border border-amber-600 px-5 py-2 text-sm font-medium text-amber-700 transition hover:bg-amber-50"
+            >
+              {showAnswers?"정답 숨기기":"정답 보기"}
+            </button>
+
+            {showAnswers && (
+              <div className="w-full rounded-2xl border border-zinc-200 bg-zinc-50 p-4 text-left">
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+                  {PHASES.map(p=>(
+                    <div key={p.id} className="rounded-xl bg-white p-3 text-center shadow-sm">
+                      <div className="mb-2 text-sm font-bold text-zinc-800">{p.label}</div>
+                      <div className="mx-auto h-28 w-full overflow-hidden rounded-lg bg-white">
+                        <PhaseArt phase={p.id}/>
+                      </div>
+                      <ul className="mt-2 space-y-1 text-left text-[11px] leading-5 text-zinc-600">
+                        {TEXTS[p.id].map(t=><li key={t}>• {t}</li>)}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
             <button onClick={start} className="rounded-full bg-amber-600 px-7 py-3 font-semibold text-white hover:bg-amber-700">게임 시작</button>
           </div>
         )}
@@ -226,25 +252,7 @@ export function MeiosisGame() {
         )}
       </section>
 
-      <div className="mt-5 text-center">
-        <button onClick={()=>setShowAnswers(v=>!v)} className="rounded-full border border-zinc-300 bg-white px-5 py-2 text-sm text-zinc-600">
-          {showAnswers?"정답 숨기기":"정답 보기"}
-        </button>
-      </div>
 
-      {showAnswers && (
-        <div className="mt-5 grid grid-cols-1 gap-3 rounded-2xl border border-zinc-200 bg-white p-4 sm:grid-cols-2 lg:grid-cols-4">
-          {PHASES.map(p=>(
-            <div key={p.id} className="rounded-xl bg-zinc-50 p-3">
-              <div className="mb-2 font-bold">{p.label}</div>
-              <div className="h-24"><PhaseArt phase={p.id}/></div>
-              <ul className="mt-2 space-y-1 text-xs leading-5 text-zinc-600">
-                {TEXTS[p.id].map(t=><li key={t}>• {t}</li>)}
-              </ul>
-            </div>
-          ))}
-        </div>
-      )}
     </div>
   );
 }
