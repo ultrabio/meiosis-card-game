@@ -211,34 +211,38 @@ export function MeiosisGame() {
 
             {showAnswers && (
               <div className="w-full rounded-2xl border border-zinc-200 bg-zinc-50 p-4 text-left">
-                <div className="mb-3 text-center text-sm font-bold text-zinc-700">간기 · 감수 제1분열</div>
-                <div className="grid grid-cols-1 gap-3 sm:grid-cols-5">
-                  {PHASES.slice(0,5).map(p=>(
-                    <div key={p.id} className="rounded-xl bg-white p-3 text-center shadow-sm">
-                      <div className="mb-2 min-h-10 text-sm font-bold leading-5 text-zinc-800">{p.label}</div>
-                      <div className="mx-auto h-32 w-full overflow-hidden rounded-lg bg-white">
-                        <PhaseArt phase={p.id}/>
+                <div className="mb-3 text-center text-base font-bold text-zinc-700">간기 · 감수 제1분열</div>
+                <div className="overflow-x-auto pb-1">
+                  <div className="grid min-w-[900px] grid-cols-5 gap-4">
+                    {PHASES.slice(0,5).map(p=>(
+                      <div key={p.id} className="text-center">
+                        <div className="mb-1 text-sm font-bold leading-5 text-zinc-800">{p.label}</div>
+                        <div className="mx-auto h-40 w-full overflow-hidden rounded-xl bg-white">
+                          <PhaseArt phase={p.id}/>
+                        </div>
+                        <ul className="mt-2 space-y-1 text-left text-[11px] leading-5 text-zinc-600">
+                          {TEXTS[p.id].map(t=><li key={t}>• {t}</li>)}
+                        </ul>
                       </div>
-                      <ul className="mt-2 space-y-1 text-left text-[11px] leading-5 text-zinc-600">
-                        {TEXTS[p.id].map(t=><li key={t}>• {t}</li>)}
-                      </ul>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
 
-                <div className="mb-3 mt-6 text-center text-sm font-bold text-zinc-700">감수 제2분열</div>
-                <div className="mx-auto grid max-w-4xl grid-cols-1 gap-3 sm:grid-cols-4">
-                  {PHASES.slice(5).map(p=>(
-                    <div key={p.id} className="rounded-xl bg-white p-3 text-center shadow-sm">
-                      <div className="mb-2 min-h-10 text-sm font-bold leading-5 text-zinc-800">{p.label}</div>
-                      <div className="mx-auto h-32 w-full overflow-hidden rounded-lg bg-white">
-                        <PhaseArt phase={p.id}/>
+                <div className="mb-3 mt-7 text-center text-base font-bold text-zinc-700">감수 제2분열</div>
+                <div className="overflow-x-auto pb-1">
+                  <div className="mx-auto grid min-w-[720px] max-w-4xl grid-cols-4 gap-4">
+                    {PHASES.slice(5).map(p=>(
+                      <div key={p.id} className="text-center">
+                        <div className="mb-1 text-sm font-bold leading-5 text-zinc-800">{p.label}</div>
+                        <div className="mx-auto h-40 w-full overflow-hidden rounded-xl bg-white">
+                          <PhaseArt phase={p.id}/>
+                        </div>
+                        <ul className="mt-2 space-y-1 text-left text-[11px] leading-5 text-zinc-600">
+                          {TEXTS[p.id].map(t=><li key={t}>• {t}</li>)}
+                        </ul>
                       </div>
-                      <ul className="mt-2 space-y-1 text-left text-[11px] leading-5 text-zinc-600">
-                        {TEXTS[p.id].map(t=><li key={t}>• {t}</li>)}
-                      </ul>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
               </div>
             )}
