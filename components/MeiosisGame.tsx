@@ -173,23 +173,44 @@ export function MeiosisGame() {
         {Array.from({length:5}).map((_,i)=><span key={i} className={i<lives?"text-rose-500":"text-zinc-200"}>♥</span>)}
       </div>
 
-      <div className="grid grid-cols-4 gap-2 md:grid-cols-9">
-        {PHASES.map(p=>{
-          const hasImage = placed[p.id].some(card=>card.kind==="image");
-          return (
-            <button key={p.id} onClick={()=>choose(p.id)}
-              className={`${hasImage ? "min-h-32" : "min-h-16"} flex flex-col overflow-hidden rounded-xl border bg-white p-2 text-center shadow-sm transition hover:-translate-y-0.5 hover:shadow-md ${flash===p.id?"border-amber-400 ring-2 ring-amber-300":"border-zinc-200"}`}>
-              <div className="shrink-0 pb-1 text-[11px] font-semibold leading-tight text-zinc-700 sm:text-xs">
-                {p.label}
-              </div>
-              {hasImage && (
-                <div className="min-h-0 flex-1 rounded-md bg-white">
-                  <PhaseArt phase={p.id}/>
+      <div className="space-y-2">
+        <div className="grid grid-cols-5 gap-2">
+          {PHASES.slice(0,5).map(p=>{
+            const hasImage = placed[p.id].some(card=>card.kind==="image");
+            return (
+              <button key={p.id} onClick={()=>choose(p.id)}
+                className={`${hasImage ? "min-h-32" : "min-h-16"} flex flex-col overflow-hidden rounded-xl border bg-white p-2 text-center shadow-sm transition hover:-translate-y-0.5 hover:shadow-md ${flash===p.id?"border-amber-400 ring-2 ring-amber-300":"border-zinc-200"}`}>
+                <div className="shrink-0 pb-1 text-[11px] font-semibold leading-tight text-zinc-700 sm:text-xs">
+                  {p.label}
                 </div>
-              )}
-            </button>
-          );
-        })}
+                {hasImage && (
+                  <div className="min-h-0 flex-1 rounded-md bg-white">
+                    <PhaseArt phase={p.id}/>
+                  </div>
+                )}
+              </button>
+            );
+          })}
+        </div>
+
+        <div className="mx-auto grid max-w-4xl grid-cols-4 gap-2">
+          {PHASES.slice(5).map(p=>{
+            const hasImage = placed[p.id].some(card=>card.kind==="image");
+            return (
+              <button key={p.id} onClick={()=>choose(p.id)}
+                className={`${hasImage ? "min-h-32" : "min-h-16"} flex flex-col overflow-hidden rounded-xl border bg-white p-2 text-center shadow-sm transition hover:-translate-y-0.5 hover:shadow-md ${flash===p.id?"border-amber-400 ring-2 ring-amber-300":"border-zinc-200"}`}>
+                <div className="shrink-0 pb-1 text-[11px] font-semibold leading-tight text-zinc-700 sm:text-xs">
+                  {p.label}
+                </div>
+                {hasImage && (
+                  <div className="min-h-0 flex-1 rounded-md bg-white">
+                    <PhaseArt phase={p.id}/>
+                  </div>
+                )}
+              </button>
+            );
+          })}
+        </div>
       </div>
 
       <div className="my-5 flex items-end justify-center gap-3">
