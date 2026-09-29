@@ -178,15 +178,15 @@ export function MeiosisGame() {
           const hasImage = placed[p.id].some(card=>card.kind==="image");
           return (
             <button key={p.id} onClick={()=>choose(p.id)}
-              className={`${hasImage ? "min-h-24" : "min-h-16"} relative overflow-hidden rounded-xl border bg-white p-2 text-center shadow-sm transition hover:-translate-y-0.5 hover:shadow-md ${flash===p.id?"border-amber-400 ring-2 ring-amber-300":"border-zinc-200"}`}>
+              className={`${hasImage ? "min-h-32" : "min-h-16"} flex flex-col overflow-hidden rounded-xl border bg-white p-2 text-center shadow-sm transition hover:-translate-y-0.5 hover:shadow-md ${flash===p.id?"border-amber-400 ring-2 ring-amber-300":"border-zinc-200"}`}>
+              <div className="shrink-0 pb-1 text-[11px] font-semibold leading-tight text-zinc-700 sm:text-xs">
+                {p.label}
+              </div>
               {hasImage && (
-                <div className="absolute inset-x-1 bottom-1 top-7">
+                <div className="min-h-0 flex-1 rounded-md bg-white">
                   <PhaseArt phase={p.id}/>
                 </div>
               )}
-              <div className={`relative z-10 text-[11px] font-semibold text-zinc-700 sm:text-xs ${hasImage ? "mx-auto w-fit rounded bg-white/90 px-1.5 py-0.5 shadow-sm" : ""}`}>
-                {p.label}
-              </div>
             </button>
           );
         })}
