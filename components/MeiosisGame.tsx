@@ -13,6 +13,21 @@ type Card = {
   text?: string;
 };
 
+type Placed = Record<Phase, Card[]>;
+
+function emptyPlaced(): Placed {
+  return {
+    m1p: [],
+    m1m: [],
+    m1a: [],
+    m1t: [],
+    m2p: [],
+    m2m: [],
+    m2a: [],
+    m2t: [],
+  };
+}
+
 const PHASES: { id: Phase; label: string }[] = [
   { id: "m1p", label: "감수 1분열 전기" },
   { id: "m1m", label: "감수 1분열 중기" },
@@ -96,6 +111,7 @@ export function MeiosisGame() {
   const [flash,setFlash]=useState<Phase|null>(null);
   const [showAnswers,setShowAnswers]=useState(false);
   const [best,setBest]=useState<number|null>(null);
+  const [placed,setPlaced]=useState<Placed>(emptyPlaced());
 
   useEffect(()=>{ const v=localStorage.getItem("meiosis-best"); if(v) setBest(Number(v)); },[]);
   const card = status==="playing" ? deck[index] : undefined;
@@ -104,6 +120,7 @@ export function MeiosisGame() {
   const start=()=>{
     setDeck(shuffle(CARDS)); setIndex(0); setScore(0); setLives(5);
     setStatus("playing"); setStarted(Date.now()); setFlash(null); setShowAnswers(false);
+    setPlaced(emptyPlaced());
   };
 
   const choose=(phase:Phase)=>{
@@ -117,6 +134,7 @@ export function MeiosisGame() {
     const gain=points((Date.now()-started)/1000);
     const nextScore=score+gain;
     setScore(nextScore);
+    setPlaced(prev=>({...prev,[phase]:[...prev[phase],card]}));
     if(index===deck.length-1){ finish(nextScore); return; }
     setIndex(i=>i+1); setStarted(Date.now()); setFlash(null);
   };
@@ -139,13 +157,22 @@ export function MeiosisGame() {
       </div>
 
       <div className="grid grid-cols-4 gap-2 md:grid-cols-8">
-        {PHASES.map(p=>(
-          <button key={p.id} onClick={()=>choose(p.id)}
-            className={`${status === "idle" ? "min-h-16" : "min-h-24"} rounded-xl border bg-white p-2 text-center shadow-sm transition hover:-translate-y-0.5 hover:shadow-md ${flash===p.id?"border-amber-400 ring-2 ring-amber-300":"border-zinc-200"}`}>
-            {status !== "idle" && <div className="h-16"><PhaseArt phase={p.id}/></div>}
-            <div className="text-[11px] font-semibold text-zinc-700 sm:text-xs">{p.label}</div>
-          </button>
-        ))}
+        {PHASES.map(p=>{
+          const hasImage = placed[p.id].some(card=>card.kind==="image");
+          return (
+            <button key={p.id} onClick={()=>choose(p.id)}
+              className={`${hasImage ? "min-h-24" : "min-h-16"} relative overflow-hidden rounded-xl border bg-white p-2 text-center shadow-sm transition hover:-translate-y-0.5 hover:shadow-md ${flash===p.id?"border-amber-400 ring-2 ring-amber-300":"border-zinc-200"}`}>
+              {hasImage && (
+                <div className="absolute inset-x-1 bottom-1 top-7">
+                  <PhaseArt phase={p.id}/>
+                </div>
+              )}
+              <div className={`relative z-10 text-[11px] font-semibold text-zinc-700 sm:text-xs ${hasImage ? "mx-auto w-fit rounded bg-white/90 px-1.5 py-0.5 shadow-sm" : ""}`}>
+                {p.label}
+              </div>
+            </button>
+          );
+        })}
       </div>
 
       <div className="my-5 flex items-end justify-center gap-3">
@@ -156,7 +183,7 @@ export function MeiosisGame() {
       <section className="mx-auto flex min-h-72 max-w-2xl items-center justify-center rounded-2xl border border-zinc-200 bg-white/90 p-6 shadow-sm">
         {status==="idle" && (
           <div className="text-center">
-            <p className="mb-5 text-sm leading-6 text-zinc-600">그림 카드 8장과 특징 카드 16장, 총 24장이 무작위로 나옵니다.<br/>빠르게 맞힐수록 높은 점수를 얻습니다.</p>
+            <p className="mb-5 text-sm leading-6 text-zinc-600">그림 카드 8장과 특징 카드 16장, 총 24장이 무작위로 나옵니다.<br/>그림 카드도 문제로 등장하며, 맞힌 그림은 해당 시기 칸에 계속 남습니다.<br/>빠르게 맞힐수록 높은 점수를 얻습니다.</p>
             <button onClick={start} className="rounded-full bg-amber-600 px-7 py-3 font-semibold text-white hover:bg-amber-700">게임 시작</button>
           </div>
         )}
