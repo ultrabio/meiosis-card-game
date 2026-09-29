@@ -197,7 +197,7 @@ export function MeiosisGame() {
         {best!==null && <span className="font-mono text-2xl text-zinc-400">({best})</span>}
       </div>
 
-      <section className="mx-auto flex min-h-72 max-w-2xl items-center justify-center rounded-2xl border border-zinc-200 bg-white/90 p-6 shadow-sm">
+      <section className={`mx-auto flex min-h-72 ${status==="idle" && showAnswers ? "max-w-6xl" : "max-w-2xl"} items-center justify-center rounded-2xl border border-zinc-200 bg-white/90 p-6 shadow-sm`}>
         {status==="idle" && (
           <div className="flex w-full flex-col items-center gap-4 text-center">
             <p className="text-sm leading-6 text-zinc-600">그림 카드 9장과 특징 카드 18장, 총 27장이 무작위로 나옵니다.<br/>그림 카드도 문제로 등장하며, 맞힌 그림은 해당 시기 칸에 계속 남습니다.<br/>빠르게 맞힐수록 높은 점수를 얻습니다.</p>
@@ -211,11 +211,27 @@ export function MeiosisGame() {
 
             {showAnswers && (
               <div className="w-full rounded-2xl border border-zinc-200 bg-zinc-50 p-4 text-left">
-                <div className="grid grid-cols-1 gap-3 sm:grid-cols-3 lg:grid-cols-5">
-                  {PHASES.map(p=>(
+                <div className="mb-3 text-center text-sm font-bold text-zinc-700">간기 · 감수 제1분열</div>
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-5">
+                  {PHASES.slice(0,5).map(p=>(
                     <div key={p.id} className="rounded-xl bg-white p-3 text-center shadow-sm">
-                      <div className="mb-2 text-sm font-bold text-zinc-800">{p.label}</div>
-                      <div className="mx-auto h-28 w-full overflow-hidden rounded-lg bg-white">
+                      <div className="mb-2 min-h-10 text-sm font-bold leading-5 text-zinc-800">{p.label}</div>
+                      <div className="mx-auto h-32 w-full overflow-hidden rounded-lg bg-white">
+                        <PhaseArt phase={p.id}/>
+                      </div>
+                      <ul className="mt-2 space-y-1 text-left text-[11px] leading-5 text-zinc-600">
+                        {TEXTS[p.id].map(t=><li key={t}>• {t}</li>)}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="mb-3 mt-6 text-center text-sm font-bold text-zinc-700">감수 제2분열</div>
+                <div className="mx-auto grid max-w-4xl grid-cols-1 gap-3 sm:grid-cols-4">
+                  {PHASES.slice(5).map(p=>(
+                    <div key={p.id} className="rounded-xl bg-white p-3 text-center shadow-sm">
+                      <div className="mb-2 min-h-10 text-sm font-bold leading-5 text-zinc-800">{p.label}</div>
+                      <div className="mx-auto h-32 w-full overflow-hidden rounded-lg bg-white">
                         <PhaseArt phase={p.id}/>
                       </div>
                       <ul className="mt-2 space-y-1 text-left text-[11px] leading-5 text-zinc-600">
